@@ -1,3 +1,5 @@
+import Server from "./Server";
+
 const filePreview = (url) => {
   let fileFormate = url.split(".").pop();
   fileFormate = fileFormate.toLowerCase();

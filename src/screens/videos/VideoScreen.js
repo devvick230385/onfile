@@ -9,7 +9,7 @@ const VideosScreen = ({ files }) => {
   const [msg, setMsg] = React.useState("");
 
   //FILTER VIDEO FILES
-  const videos = [...files].filter((ft) => ft.type === "video").reverse();
+  const videos = files.filter((ft) => ft.type === "video").reverse();
 
   //DISMISS ALERT IN 4 SECS
   React.useEffect(() => {

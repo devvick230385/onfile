@@ -9,7 +9,7 @@ const DocumentsScreen = ({ files }) => {
   const [msg, setMsg] = React.useState("");
 
   // FILTER DOCUMENT FILES
-  const docs = [...files]
+  const docs = files
     .filter(
       (ft) => ft.type !== "audio" && ft.type !== "video" && ft.type !== "image"
     )

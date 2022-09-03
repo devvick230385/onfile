@@ -9,7 +9,7 @@ const AudiosScreen = ({ files }) => {
   const [msg, setMsg] = React.useState("");
 
   /// FILTER AUDIO FILES
-  const audios = [...files].filter((ft) => ft.type === "audio").reverse();
+  const audios = files.filter((ft) => ft.type === "audio").reverse();
 
   ///DISMISS ALERT IN 4 SECS
   React.useEffect(() => {

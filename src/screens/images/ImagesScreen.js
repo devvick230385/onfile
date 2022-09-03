@@ -10,7 +10,7 @@ const ImagesScreen = ({ files }) => {
   const [msg, setMsg] = React.useState("");
 
   // FILTER IMAGE FILES
-  const images = [...files].filter((ft) => ft.type === "image").reverse();
+  const images = files.filter((ft) => ft.type === "image").reverse();
 
   //DISMISS ALERT IN 4 SECS
   React.useEffect(() => {

@@ -10,15 +10,21 @@ import ClientServer from "./utils/ClientServer";
 const App = () => {
   const [files, setFiles] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
+  const [reload, setReload] = React.useState(true);
+  //FETCH DATA FUNCTION
   const fetchData = async () => {
     const response = await ClientServer.get("/getData", {
       headers: {
         authorization: "bearer This_is_the_bearer_key_so_stay_clear",
       },
     });
+    setReload(!reload);
     setLoading(false);
     setFiles(response.data.files);
+    console.log(response.data);
   };
+
+  // INVOKE FETCH DATA FUNCTION ON TIMEOUT
   useEffect(() => {
     if (loading) {
       fetchData();
@@ -27,7 +33,7 @@ const App = () => {
         fetchData();
       }, 10000);
     }
-  });
+  }, [reload]);
 
   return (
     <Routes>
