@@ -1,16 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import AudiosScreen from "./screens/audios/AudiosScreen";
+import Login from "./screens/auth/Login";
+import Register from "./screens/auth/Register";
 import DocumentsScreen from "./screens/documents/DocumentsScreen";
 import ImagesScreen from "./screens/images/ImagesScreen";
 import VideosScreen from "./screens/videos/VideoScreen";
+import ClientServer from "./utils/ClientServer";
 const App = () => {
+  const [files, setFiles] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+  const fetchData = async () => {
+    const response = await ClientServer.get("/getData", {
+      headers: {
+        authorization: "bearer This_is_the_bearer_key_so_stay_clear",
+      },
+    });
+    setLoading(false);
+    setFiles(response.data.files);
+  };
+  useEffect(() => {
+    if (loading) {
+      fetchData();
+    } else {
+      setTimeout(() => {
+        fetchData();
+      }, 10000);
+    }
+  });
+
   return (
     <Routes>
-      <Route path="/images" element={<ImagesScreen />} />
-      <Route path="/videos" element={<VideosScreen />} />
-      <Route path="/audios" element={<AudiosScreen />} />
-      <Route path="/documents" element={<DocumentsScreen />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/images" element={<ImagesScreen files={files} />} />
+      <Route path="/videos" element={<VideosScreen files={files} />} />
+      <Route path="/audios" element={<AudiosScreen files={files} />} />
+      <Route path="/documents" element={<DocumentsScreen files={files} />} />
     </Routes>
   );
 };
