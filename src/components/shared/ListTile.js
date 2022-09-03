@@ -1,20 +1,19 @@
 import React from "react";
 
-const ListTile = () => {
+const ListTile = ({ name, onDelete, onPreview }) => {
+  const isAdmin = localStorage.getItem("admin");
+
   return (
     <div>
       <div className="shadow p-3  my-2 rounded">
-        <p className="text-blue-500 cursor-pointer">
-          Burna boy asdfljaksd fasdlfj asdjhf askdjfhasdkjfah dfkajhsdf aksdjfh
-          asdfkjahsd faksdjhfa sdfkjhasd faskdjhf asdkfjhas d asdkfhaskd
-          faksdjfh asdkjfha sdfjahds fjahdf ajdhfakldjhfa sdk{" "}
+        <p className="text-blue-500 cursor-pointer" onClick={onPreview}>
+          {name}
         </p>
-        <button className="text-red-500 ">
-          <small>Delete</small>
-        </button>
-      </div>
-      <div className="shadow p-3 my-2 cursor-pointer">
-        <p className="text-blue-500">Burna boy</p>
+        {isAdmin === "true" && (
+          <button onClick={onDelete} className="text-red-500 ">
+            <small>Delete</small>
+          </button>
+        )}
       </div>
     </div>
   );

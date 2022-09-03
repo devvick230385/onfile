@@ -1,8 +1,18 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import ClientServer from "../utils/ClientServer";
 const Layout = (props) => {
   const navigate = useNavigate();
   const sideBarRef = React.useRef();
+  const [progress, setProgress] = React.useState(0);
+  const [showDialogue, setShowDialogue] = React.useState(false);
+  const [msg, setMsg] = React.useState("");
+  React.useEffect(() => {
+    setTimeout(() => {
+      setShowDialogue(false);
+      setMsg("");
+    }, 4000);
+  }, [showDialogue]);
   React.useEffect(() => {
     if (!localStorage.getItem("admin")) {
       navigate("/");
@@ -19,6 +29,42 @@ const Layout = (props) => {
     localStorage.removeItem("admin");
     navigate("/");
   };
+
+  const upload = async (files) => {
+    try {
+      const formData = new FormData();
+      Array.from(files).map((file) => {
+        formData.append("file", file);
+        return;
+      });
+      const response = await ClientServer.post("/uploadNew", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          authorization: "bearer This_is_the_bearer_key_so_stay_clear",
+        },
+        onUploadProgress: (progressEvent) => {
+          setProgress(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total)
+          );
+        },
+      });
+
+      if (response.data.success) {
+        setMsg("Upload successful");
+      } else {
+        setMsg(response.data.msg);
+      }
+      setShowDialogue(true);
+      setProgress(0);
+    } catch (error) {
+      setMsg(error.message);
+      setShowDialogue(true);
+      setProgress(0);
+    }
+  };
+
+  const isAdmin = localStorage.getItem("admin");
+
   return (
     <div>
       <div className="relative min-h-screen md:flex">
@@ -111,21 +157,39 @@ const Layout = (props) => {
 
             <a
               onClick={logout}
-              className="block py-2.5 px-4  rounded transform hover:translate-x-2 transition-transform ease-in duration-200"
+              className="block py-2.5 px-4 cursor-pointer rounded transform hover:translate-x-2 transition-transform ease-in duration-200"
             >
               Sign out
             </a>
 
-            <input id="file" type="file" hidden multiple />
+            <input
+              id="file"
+              type="file"
+              onChange={(e) => upload(e.target.files)}
+              hidden
+              multiple
+            />
 
-            <div className="block py-2.5 px-4 mt-3 border align-center flex flex-col rounded ">
-              <label htmlFor="file" className="text-center">
-                Upload file
-              </label>
-            </div>
-            <div className="mt-1">
-              <small>20% complete</small>
-            </div>
+            {isAdmin === "true" && (
+              <div className="block py-2.5 px-4 mt-3 border align-center flex flex-col rounded ">
+                <label htmlFor="file" className="text-center">
+                  Upload file
+                </label>
+              </div>
+            )}
+            {!!progress && (
+              <div className="mt-1">
+                <small>{progress}% complete</small>
+              </div>
+            )}
+            {showDialogue && !!msg && (
+              <div
+                className="p-4 my-4 text-sm text-center bg-teal-100 rounded-lg text-teal-500"
+                role="alert"
+              >
+                {msg}
+              </div>
+            )}
           </nav>
         </div>
 

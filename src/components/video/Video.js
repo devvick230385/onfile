@@ -1,26 +1,28 @@
 import React from "react";
-import image from "../../assets/img.jpeg";
+import Server from "../../utils/Server";
 
-const Video = ({ onClick, isLoading }) => {
+const Video = ({ onPreview, onDelete, uri }) => {
+  const isAdmin = localStorage.getItem("admin");
+
   return (
-    <div
-      onClick={onClick}
-      className="aspect-w-1 group cursor-pointer aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8"
-    >
-      <img
+    <div className="aspect-w-1  aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
+      <video
+        controls
         alt=""
-        src={image}
+        onClick={onPreview}
+        src={`${Server}/${uri}`}
         style={{ width: "100%", height: "40vh", objectFit: "cover" }}
-        className={`
-            "duration-700 ease-in-out group-hover:opacity-75 object-cover",
-            ${
-              isLoading
-                ? "scale-110 blur-2xl grayscale"
-                : "scale-100 blur-0 grayscale-0"
-            }
-          `}
-        //   onLoadingComplete={() => setLoading(false)}
-      />
+        className="duration-700  cursor-pointer ease-in-out hover:opacity-75 object-cover"
+      ></video>
+      {isAdmin === "true" && (
+        <small
+          onClick={onDelete}
+          className="p-3 cursor-pointer text-red-500"
+          title="delete"
+        >
+          Delete
+        </small>
+      )}
     </div>
   );
 };

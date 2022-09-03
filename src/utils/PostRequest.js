@@ -1,10 +1,10 @@
 import ClientServer from "./ClientServer";
 
-const PostRequest = async (path, data, isFormData) => {
+const PostRequest = async (path, data) => {
   try {
     const response = await ClientServer.post(path, data, {
       headers: {
-        "Content-Type": isFormData ? "multipart/form-data" : "application/json",
+        "Content-Type": "application/json",
         authorization: "bearer This_is_the_bearer_key_so_stay_clear",
       },
     });
