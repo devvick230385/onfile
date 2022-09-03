@@ -87,7 +87,7 @@ const Login = () => {
           <Submit
             remember={remember}
             loading={loading}
-            event="Sign up"
+            event="Sign ip"
             onChangeRemember={() => setRemember(!remember)}
           />
           <div className="items-center flex flex-col mt-4">
