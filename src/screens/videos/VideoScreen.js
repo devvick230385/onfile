@@ -7,7 +7,11 @@ import Server from "../../utils/Server";
 const VideosScreen = ({ files }) => {
   const [showDialogue, setShowDialogue] = React.useState(false);
   const [msg, setMsg] = React.useState("");
+
+  //FILTER VIDEO FILES
   const videos = [...files].filter((ft) => ft.type === "video").reverse();
+
+  //DISMISS ALERT IN 4 SECS
   React.useEffect(() => {
     setTimeout(() => {
       setShowDialogue(false);
@@ -15,10 +19,12 @@ const VideosScreen = ({ files }) => {
     }, 4000);
   }, [showDialogue]);
 
+  //PREVIEW FILE
   const preview = (uri) => {
     filePreview(`${Server}/${uri}`);
   };
 
+  //DELETE FILE
   const del = async (path) => {
     setMsg("Deleting");
     setShowDialogue(true);
@@ -46,6 +52,7 @@ const VideosScreen = ({ files }) => {
           })}
         </div>
       </div>
+      {/* DIALOGUE */}
       {showDialogue && !!msg && (
         <div
           className="p-4 my-4 text-sm text-center bg-teal-100 rounded-lg text-teal-500"

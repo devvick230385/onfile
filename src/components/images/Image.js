@@ -1,5 +1,4 @@
 import React from "react";
-
 import Server from "../../utils/Server";
 
 const Image = ({ onPreview, onDelete, uri }) => {
@@ -12,11 +11,7 @@ const Image = ({ onPreview, onDelete, uri }) => {
         onClick={onPreview}
         src={`${Server}/${uri}`}
         style={{ width: "100%", height: "40vh", objectFit: "cover" }}
-        className={`
-            "duration-700  cursor-pointer ease-in-out hover:opacity-75 object-cover",
-           
-          `}
-        //   onLoadingComplete={() => setLoading(false)}
+        className="duration-700  cursor-pointer ease-in-out hover:opacity-75 object-cover"
       />
       {isAdmin === "true" && (
         <small

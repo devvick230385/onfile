@@ -7,29 +7,36 @@ const Layout = (props) => {
   const [progress, setProgress] = React.useState(0);
   const [showDialogue, setShowDialogue] = React.useState(false);
   const [msg, setMsg] = React.useState("");
+  const paths = ["/images", "/audios", "/videos", "/documents"];
+  const location = useLocation();
+  const isAdmin = localStorage.getItem("admin");
+
+  ///DISMISS ALERT IN 4 SECS
   React.useEffect(() => {
     setTimeout(() => {
       setShowDialogue(false);
       setMsg("");
     }, 4000);
   }, [showDialogue]);
+
+  /// LOGOUT USERS WITHOUT LOCALSTORAGE
   React.useEffect(() => {
     if (!localStorage.getItem("admin")) {
       navigate("/");
     }
   }, []);
+
   //   // add our event listener for the click
   const toggleSidebar = () => {
     sideBarRef.current.classList.toggle("-translate-x-full");
   };
 
-  const paths = ["/images", "/audios", "/videos", "/documents"];
-  const location = useLocation();
+  //LOGOUT
   const logout = () => {
     localStorage.removeItem("admin");
     navigate("/");
   };
-
+  ///UPLOAD
   const upload = async (files) => {
     try {
       const formData = new FormData();
@@ -62,8 +69,6 @@ const Layout = (props) => {
       setProgress(0);
     }
   };
-
-  const isAdmin = localStorage.getItem("admin");
 
   return (
     <div>
@@ -155,6 +160,7 @@ const Layout = (props) => {
               );
             })}
 
+            {/* SIGN OUT */}
             <a
               onClick={logout}
               className="block py-2.5 px-4 cursor-pointer rounded transform hover:translate-x-2 transition-transform ease-in duration-200"
@@ -162,6 +168,7 @@ const Layout = (props) => {
               Sign out
             </a>
 
+            {/* FILE PICK */}
             <input
               id="file"
               type="file"
@@ -177,6 +184,8 @@ const Layout = (props) => {
                 </label>
               </div>
             )}
+
+            {/* DIALOGUES */}
             {!!progress && (
               <div className="mt-1">
                 <small>{progress}% complete</small>

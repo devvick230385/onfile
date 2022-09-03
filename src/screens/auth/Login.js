@@ -11,18 +11,22 @@ const Login = () => {
   const [data, setData] = React.useState({});
   const navigate = useNavigate();
 
+  // INPUT CHANGE HANDLER
   const changeHandler = (field, value) => {
     setData({
       ...data,
       [field]: value.trim(),
     });
   };
+
+  // LOGIN IN USER AUTOMATICALLY IF THERE IS LOCALSTORAGE
   React.useEffect(() => {
     if (localStorage.getItem("admin")) {
       navigate("/images");
     }
   }, []);
 
+  // SUBMIT USER DATA
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);

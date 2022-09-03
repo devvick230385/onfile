@@ -11,6 +11,8 @@ const Register = () => {
   const [error, setError] = React.useState("");
   const [data, setData] = React.useState({});
   const navigate = useNavigate();
+
+  // INPUT CHANGE HANDLER
   const changeHandler = (field, value) => {
     setData({
       ...data,
@@ -18,6 +20,7 @@ const Register = () => {
     });
   };
 
+  // SUBMIT USER DATA
   const submitHandler = async (event) => {
     event.preventDefault();
     setLoading(true);
