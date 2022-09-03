@@ -21,7 +21,6 @@ const App = () => {
     setReload(!reload);
     setLoading(false);
     setFiles(response.data.files);
-    console.log(response.data);
   };
 
   // INVOKE FETCH DATA FUNCTION ON TIMEOUT
